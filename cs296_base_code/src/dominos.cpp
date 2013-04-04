@@ -31,12 +31,12 @@ namespace cs296
           // Water Pond 1 (with drowned object)
           {
                b2PolygonShape shape;
-               shape.SetAsBox(0.4f, 4.0f);     
+               shape.SetAsBox(0.25f, 4.0f);     
                b2BodyDef bd;
                bd.position.Set(-40.0f, 4.0f);
                b2Body* pond1 = m_world->CreateBody(&bd);
                pond1->CreateFixture(&shape, 0.0f);
-               shape.SetAsBox(0.4f, 4.0f);
+               shape.SetAsBox(0.25f, 4.0f);
                bd.position.Set(-32.0f, 4.0f);
                pond1 = m_world->CreateBody(&bd);
                pond1->CreateFixture(&shape, 0.0f);
@@ -45,18 +45,66 @@ namespace cs296
           // Water Pond 2 (with boat)
           {
                b2PolygonShape shape;
-               shape.SetAsBox(6.0f, 5.0f);      
+               shape.SetAsBox(0.25f, 6.0f);     
                b2BodyDef bd;
-               bd.position.Set(-5.0f, 5.0f);
+               bd.position.Set(0.0f, 6.0f);
+               b2Body* pond1 = m_world->CreateBody(&bd);
+               pond1->CreateFixture(&shape, 0.0f);
+               shape.SetAsBox(0.25f, 6.0f);
+               bd.position.Set(20.0f, 6.0f);
+               pond1 = m_world->CreateBody(&bd);
+               pond1->CreateFixture(&shape, 0.0f);
+          }
+
+          // Bottom Horizontal Shelf
+          {
+               b2PolygonShape shape;
+               shape.SetAsBox(8.0f, 0.25f);
+               b2BodyDef bd;
+               bd.position.Set(-11.0f, 12.0f);
                b2Body* ground = m_world->CreateBody(&bd);
                ground->CreateFixture(&shape, 0.0f);
           }
 
-          // Botto Pulley System
+          // Dominoes
+          {
+               b2PolygonShape shape;
+               shape.SetAsBox(0.1f, 1.0f);
+               b2FixtureDef fd;
+               fd.shape = &shape;
+               fd.density = 20.0f;
+               fd.friction = 0.1f;
+               for (int i = 0; i < 10; ++i)
+               {
+                    b2BodyDef bd;
+                    bd.type = b2_dynamicBody;
+                    bd.position.Set(-15.0f + 1.0f * i, 15.0f);
+                    b2Body* body = m_world->CreateBody(&bd);
+                    body->CreateFixture(&fd);
+               }
+          }
+
+          //The heavy sphere on the platform
+          {
+               b2Body* sbody;
+               b2CircleShape circle;
+               circle.m_radius = 1.0;
+               b2FixtureDef ballfd;
+               ballfd.shape = &circle;
+               ballfd.density = 200.0f;
+               ballfd.friction = 0.0f;
+               ballfd.restitution = 0.0f;
+               b2BodyDef ballbd;
+               ballbd.type = b2_dynamicBody;
+               ballbd.position.Set(-17.0f, 15.0f);
+               sbody = m_world->CreateBody(&ballbd);
+               sbody->CreateFixture(&ballfd);
+          }
+
+          // Bottom Pulley System
           {
 
                // Object in pond
-
                b2PolygonShape shape;
                shape.SetAsBox(2.0f, 2.0f);
                b2FixtureDef fd;
@@ -70,13 +118,11 @@ namespace cs296
                object_in_pond->CreateFixture(&shape, 34.0f);
 
                // Pulley System
-
                bd->type=b2_dynamicBody;
                bd->position.Set(-22.0f,10.0f);
                bd->fixedRotation=true;
 
                // Open Box
-
                b2FixtureDef *fd1=new b2FixtureDef;
                fd1->density = 10.0f;
                fd1->friction = 0.5f;
@@ -109,7 +155,6 @@ namespace cs296
                box1->CreateFixture(fd3);
 
                // Pulley Joint
-
                b2PulleyJointDef* myjoint = new b2PulleyJointDef();
                b2Vec2 worldAnchorOnBody1(-35.0f,1.0f); // Anchor point on body 1 in world axis
                b2Vec2 worldAnchorOnBody2(-22.0f,6.0f); // Anchor point on body 2 in world axis
