@@ -148,24 +148,24 @@ namespace cs296
                b1 = m_world->CreateBody(bd);
                b1->CreateFixture(&shape, 0.0f);
 
-               {
-                    b2Body * curve1;
-                    b2EdgeShape shape1[10];
-                    b2BodyDef shape1bd[10];
-                    b2FixtureDef shape1fd[10];
+               // {
+               //      b2Body * curve1;
+               //      b2EdgeShape shape1[10];
+               //      b2BodyDef shape1bd[10];
+               //      b2FixtureDef shape1fd[10];
 
-                    float32 x1 = -10.5f;
-                    float32 y1 = 45.5f;
-                    float32 radius1 = 20;
-                    for(int i = 0 ; i < 5 ; i++){
-                         shape1[i].Set(b2Vec2( x1+radius1*sin(5.0/4.0*b2_pi+i*b2_pi/20.0) , y1 + radius1*cos(5.0/4.0*b2_pi+i*b2_pi/20.0)) , b2Vec2( x1+radius1*sin(5.0/4.0*b2_pi+(i+1)*b2_pi/20.0) , y1 + radius1*cos(5.0/4.0*b2_pi+(i+1)*b2_pi/20.0)));
-                         shape1fd[i].friction = 0;
-                         shape1fd[i].shape = &shape1[i];
-                         shape1fd[i].restitution = 1;
-                         curve1 = m_world->CreateBody(&shape1bd[i]);
-                         curve1->CreateFixture(&shape1fd[i]);
-                    }
-               }
+               //      float32 x1 = -10.5f;
+               //      float32 y1 = 45.5f;
+               //      float32 radius1 = 5.0;
+               //      for(int i = 0 ; i < 5 ; i++){
+               //           shape1[i].Set(b2Vec2( x1+radius1*sin(5.0/4.0*b2_pi+i*b2_pi/20.0) , y1 + radius1*cos(5.0/4.0*b2_pi+i*b2_pi/20.0)) , b2Vec2( x1+radius1*sin(5.0/4.0*b2_pi+(i+1)*b2_pi/20.0) , y1 + radius1*cos(5.0/4.0*b2_pi+(i+1)*b2_pi/20.0)));
+               //           shape1fd[i].friction = 0;
+               //           shape1fd[i].shape = &shape1[i];
+               //           shape1fd[i].restitution = 1;
+               //           curve1 = m_world->CreateBody(&shape1bd[i]);
+               //           curve1->CreateFixture(&shape1fd[i]);
+               //      }
+               // }
 
                // Ball on Slanted Surface
                {
@@ -418,16 +418,12 @@ namespace cs296
                m_world->CreateJoint(&jointDef);
                {
                     b2EdgeShape shape;
-                    shape.Set(b2Vec2(20.6f, 58.5f), b2Vec2(27.2f, 63.5f));
+                    shape.Set(b2Vec2(14.6f, 59.5f), b2Vec2(27.2f, 63.5f));
                     b2BodyDef bd;
                     b1 = m_world->CreateBody(&bd);
                     b1->CreateFixture(&shape, 0.0f);
 
-                    shape.Set(b2Vec2(17.6f, 60.5f), b2Vec2(17.6f, 55.5f));
-                    b1 = m_world->CreateBody(&bd);
-                    b1->CreateFixture(&shape, 0.0f);
-
-                    shape.Set(b2Vec2(17.6f, 55.5f), b2Vec2(22.6f, 50.5f));
+                    shape.Set(b2Vec2(16.6f, 54.5f), b2Vec2(22.6f, 50.5f));
                     b1 = m_world->CreateBody(&bd);
                     b1->CreateFixture(&shape, 0.0f);
 
@@ -637,6 +633,26 @@ namespace cs296
                     box1->CreateFixture(fd2);
                     box1->CreateFixture(fd3);
                }
+
+               // Revolving Planck #10
+               shape.SetAsBox(8.0f, 0.2f);
+               bd.position.Set(8.0f, 57.0f);
+               bd.type = b2_dynamicBody;
+               body = m_world->CreateBody(&bd);
+               fd = new b2FixtureDef;
+               fd->density = 1.f;
+               fd->shape = new b2PolygonShape;
+               fd->shape = &shape;
+               body->CreateFixture(fd);               
+               shape2.SetAsBox(0.2f, 2.0f);               
+               bd2.position.Set(8.0f, 57.0f);
+               body2 = m_world->CreateBody(&bd2);               
+               jointDef.bodyA = body;
+               jointDef.bodyB = body2;
+               jointDef.localAnchorA.Set(0,0);
+               jointDef.localAnchorB.Set(0,0);
+               jointDef.collideConnected = false;
+               m_world->CreateJoint(&jointDef);
           }
 
           // Bottom Horizontal Shelf
