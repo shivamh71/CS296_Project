@@ -1,0 +1,6 @@
+external/lib
+external/include
+bin
+obj
+external/src/Box2D
+*~
