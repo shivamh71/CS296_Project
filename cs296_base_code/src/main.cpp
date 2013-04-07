@@ -43,7 +43,7 @@
 #include <cstdio>
 
 
-//! Notice the use of extern. Why is it used here?
+//! extern is used to extend the visibility of variables. If it is declared in one file it can be used in other files too
 namespace cs296
 {
   extern int32 test_index;
@@ -60,7 +60,7 @@ namespace cs296
 };
 
 //! This opens up the cs296 namespace
-//! What is the consequence of opening up a namespace?
+//! Namespace allows us to group entities like classes, objects and functions under one name
 using namespace cs296;
 
 
