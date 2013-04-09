@@ -1,0 +1,43 @@
+body{
+	background-color:#CBCED1;
+	color:black;
+}
+
+#heading{
+	font-size:44px;
+	font-weight:bold;
+	font-family:monospace;
+}
+
+#link_to_original_design > a{
+	text-indent:15px;
+	color:blue;
+}
+
+#team{
+	text-indent:15px;
+	font-size:17px;
+	font-family:monospace;
+}
+
+#simulation_vedio{
+	font-size:17px;
+	font-family:monospace;
+	text-indent:15px;
+}
+
+#simulation_vedio > video{
+	position:relative;
+	bottom:20px;
+	padding:5px;
+}
+
+#report{
+	text-indent:15px;
+	font-size:17px;
+}
+
+#changes{
+	text-indent:15px;
+	font-size:17px;
+}

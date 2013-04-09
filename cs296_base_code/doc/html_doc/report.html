@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>CS296_G16_PROJECT_REPORT</title>
+	<link rel="stylesheet" type="text/css" href="main.css"/>	
+</head>
+
+<body>
+	<br/>
+	<div id="heading">CS 296 - Group 16 - Final Project Report</div>
+	<br/><hr/><br/>
+	<div id="link_to_original_design"><a href="old_design.html">Go to original Rube Goldberg Design</a><br/>
+	<a href="profile_report.html">Go to Profiling Report</a></div>
+	<br/><hr/>
+	<div id="team">
+		<h2>Team Details - Group 16</h2>
+		<ul>
+			<li>Shivam H Prasad - 110050041 - <a href="http://www.cse.iitb.ac.in/~shivamh">shivamh@cse.iitb.ac.in</a></li>
+			<li>Nisheeth Lahoti - 110050027 - <a href="http://www.cse.iitb.ac.in/~lahoti">lahoti@cse.iitb.ac.in</a></li>
+			<li>Shital Godara   - 110050014 - <a href="http://www.cse.iitb.ac.in/~shital">shital@cse.iitb.ac.in</a></li>
+		</ul>
+	</div>
+	<hr/>
+	<div id="simulation_vedio">
+		<h2>Simulation Video</h2>
+		<video src="simulation.ogv" width="800" height="600" autoplay loop muted controls></video>
+	</div>
+	<hr/>
+	<div id="report">
+		<h2><b>Project Report</b></h2>
+		<p>Above is a vedio of our Rube Goldeberg Simulation run on our laptop. We have successfully completed simuating our design though with some modifications but without affecting our learning process. We used original dominoes.cpp to learn about creating bodies in Box2D and using that knowledge made this simulation. Some key features of our design are....</p>  
+		<ul>
+			<li>
+				<p><b>Boat Structure : </b> This structure is used to disturb the dominoes which then lead to ball falling into last pulley system and box in pond being lifted. We have simulated this box by making a body for that structure and then making gravityScale for this body 0.0 so that it can float freely in the Box2D environment. Thus there is no force acting on this body in any direction. Thus the balls that comes and hits this boat hits along a line that passes through is centre of mass in perfectly horizontal so that it gains only horizantal velocity component and no vertical component</p>
+				<img src="boat.png" height="300" width="400"/>
+				<img src="boat1.png" height="300" width="400"/>
+				<img src="boat2.png" height="300" width="400"/>
+			</li>
+			<li>
+				<p><b>Ball triggering the entire process : </b> The heavy ball that is seen triggering the entire simualtion process is a very heavy one indeed. Intially while coding when we kept the density of ball moderately high it didn't the concerned planck with enough force that would enable the pendulum system so we had to increase its density greatly and also reduce the weight of pendulum bobs so that they can function as desired</p>
+				<img src="start.png" height="300" width="400"/>
+				<img src="start1.png" height="300" width="400"/>
+				<img src="start2.png" height="300" width="400"/>
+			</li>
+			<li>
+				<p><b>Turnover Planck : </b> The planck shown in this image is intialy horizantal in our simualtion but when a ball sliding down the incline to its right hits it, it starts rotating clockwise and changes the direction of motion of ball by more than 180degrees and all this time ball is constantly in contact with the planck. We achieved this by carefully adjusting density and speed of ball, length of rotating planck and position of planck relative to its neighbours. This planck thus completely changes course of motion of ball and puts it inside the pulley </p>
+				<img src="fancy_planck1.png" height="300" width="400"/>
+				<img src="fancy_planck.png" height="300" width="400"/>
+				<img src="fancy_planck2.png" height="300" width="400"/>
+			</li>
+			<li>
+				<p><b>Three balls to one : </b> As seen in the image there are three balss which want to slide down the slope but there is a barrier int their path which on other side is connected to an open box through a pulley system. Thus when a heavy ball falls into at open box this barrier lifts and all the three balls roll down. First ball gets trapped by the first hole in the path and similarly second ball in second path making way for third ball to pass. </p>
+				<img src="balls.png" height="300" width="400"/>
+				<img src="balls1.png" height="300" width="400"/>
+				<img src="balls2.png" height="300" width="400"/>
+			</li>
+		</ul>
+	</div>
+	<hr/>
+	<div id="changes">
+		<h2><b>Changes from Original Design</b></h2>
+		<ul>
+			<li>
+				<p><b>Removed un-necessary curves in ball's path : </b> In our original design there were lot many curves to bring the ball down from a height which didn't actually affected complexity of design therefore we removed un-necessary curves wherever we felt that single curve will do the same work</p> <br/> <br/>
+				<img src="new_curves.png" height="300" width="400"/>   
+				<img src="old_curves.png" height="300" width="400"/> 
+			</li>
+			<li>
+				<p><b>Reduced number of rotating plancks : </b> As is visible in the video that our aim is to lift the box that has fallen into the open pond on bottom left. In our original design a ball, a pulley and number of rotating plancks resulted in this box falling into pond which was kept on slant surface. We decided to ditch this idea of box fallling in the pond as by writing the code for it we would not have learnt anything new and it would be simply copy-pasting the code for rotating plancks, ball and a pulley but our design already have these bodies in good numbers</p> <br/> <br/>
+				<img src="new_begin.png" height="300" width="400"/>   
+				<img src="old_begin.png" height="300" width="400"/> 
+			</li>
+			<li>
+				<p><b>Modified one of the stages in Simulation : </b> Initialy i our design there were three plancks used to roll down a ball towards right but we later replaced them by a single rotating planck as we were able to achieve a better simulation using just one block. The modified version was better than previous one as it is good to see how a single rotating planck changes the direction of moving ball by more than 180degrees. his we achieved by carefully adjusting speed of the ball and also the position of rotating planck relative to its neighbours </p><br/> <br/>
+				<img src="new_fancy.png" height="300" width="400"/>   
+				<img src="old_fancy.png" height="300" width="400"/> 
+			</li>
+			<li>
+				<p><b>Modified starting apparatus of the Simulation : </b> In our original design we had two exaclty identical apparatus which triggered the simulation so instead of keeping those two we replaced one of them with a system of pendulum bobs. Thus we were able use a new kind of body and also avoid repetition of identical code</p> <br/> <br/>
+				<img src="new_start.png" height="300" width="400"/>   
+				<img src="old_start.png" height="300" width="400"/> 
+			</li>
+			<li>
+				<p><b><h3>NOTE : </h3>In short wherever possible we have avoided making our simualtion bigger by repetition of same code and tried to include different kind of bodies in small but decent simulation.</p></b> <br/> <br/> 
+			</li>
+		</ul>
+	</div>
+	<br/><hr/>
+</body>
+
+</html>
