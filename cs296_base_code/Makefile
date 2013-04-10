@@ -28,7 +28,7 @@ LIBTARGET = cs296_exelib_16
 REPORT_FILE = g16_prof_report
 
 # Project Paths
-PROJECT_ROOT=$(HOME)/coursework/cs296/CS296_Project/cs296_base_code
+PROJECT_ROOT=$(HOME)/Desktop/Project/cs296_base_code
 EXTERNAL_ROOT=$(PROJECT_ROOT)/external
 SRCDIR = $(PROJECT_ROOT)/src
 OBJDIR = $(PROJECT_ROOT)/obj
