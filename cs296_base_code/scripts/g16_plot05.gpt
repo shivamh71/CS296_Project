@@ -1,0 +1,18 @@
+set terminal png
+set autoscale
+set output "./plots/g16_plot05.png"
+set title "Step times frequency distribution"
+set xlabel "Step Time"
+set ylabel "Number of occurences"
+set datafile separator ","
+
+bw = 0.002
+round(x,base) = base*(0.5+int(x/base))
+
+set xrange [0.12:0.16]
+set yrange [0:120]
+set boxwidth bw*0.8
+
+plot\
+   "./data/lab05_g16_data.csv" using (round($3,bw)):($2==14?1:0) smooth frequency title "Frequency" with boxes,\
+   "./data/lab05_g16_data.csv" using (round($3,bw)+bw/2):($2==14?1:0) smooth cumulative title "Cumulative frequency" with lines

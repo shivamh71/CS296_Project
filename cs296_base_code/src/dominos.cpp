@@ -144,7 +144,8 @@ namespace cs296
                shape.SetAsBox(0.25f, 6.0f);
                bd.position.Set(20.0f, 6.0f);
                pond1 = m_world->CreateBody(&bd);
-               pond1->CreateFixture(&shape, 0.0f);
+               pond1->CreateFixture
+               (&shape, 0.0f);
           }
 
           // Startup Elements

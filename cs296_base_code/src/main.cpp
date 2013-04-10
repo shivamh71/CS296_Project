@@ -27,7 +27,7 @@
 #include "render.hpp"
 #include "cs296_base.hpp"
 #include "callbacks.hpp"
-
+#include <sys/time.h>
 //! GLUI is the library used for drawing the GUI
 //! Learn more about GLUI by reading the GLUI documentation
 //! Learn to use preprocessor diectives to make your code portable
@@ -120,33 +120,61 @@ int main(int argc, char** argv)
   
   entry = sim;
   test = entry->create_fcn();
-
+	int iteration_value=0;
+	for (int i=0; argv[1][i] != '\0'; i++) {
+		iteration_value *= 10;
+		iteration_value += argv[1][i]-48;
+	}
   //! This initializes GLUT
-  glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-  glutInitWindowSize(width, height);
+  //glutInit(&argc, argv);
+  //glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+  //glutInitWindowSize(width, height);
 
-  char title[50];
-  sprintf(title, "CS296 Base Code. Running on Box2D %d.%d.%d", b2_version.major, b2_version.minor, b2_version.revision);
-  main_window = glutCreateWindow(title);
+  //char title[50];
+  //sprintf(title, "CS296 Base Code. Running on Box2D %d.%d.%d", b2_version.major, b2_version.minor, b2_version.revision);
+  //main_window = glutCreateWindow(title);
 
   //! Here we setup all the callbacks we need
   //! Some are set via GLUI
-  GLUI_Master.set_glutReshapeFunc(callbacks_t::resize_cb);  
-  GLUI_Master.set_glutKeyboardFunc(callbacks_t::keyboard_cb);
-  GLUI_Master.set_glutSpecialFunc(callbacks_t::keyboard_special_cb);
-  GLUI_Master.set_glutMouseFunc(callbacks_t::mouse_cb);
+  //GLUI_Master.set_glutReshapeFunc(callbacks_t::resize_cb);  
+  //GLUI_Master.set_glutKeyboardFunc(callbacks_t::keyboard_cb);
+  //GLUI_Master.set_glutSpecialFunc(callbacks_t::keyboard_special_cb);
+  //GLUI_Master.set_glutMouseFunc(callbacks_t::mouse_cb);
   //! Others are set directly
-  glutDisplayFunc(callbacks_t::display_cb);
-  glutMotionFunc(callbacks_t::mouse_motion_cb);
-  glutKeyboardUpFunc(callbacks_t::keyboard_up_cb); 
-  glutTimerFunc(frame_period, callbacks_t::timer_cb, 0);
+  //glutDisplayFunc(callbacks_t::display_cb);
+  //glutMotionFunc(callbacks_t::mouse_motion_cb);
+  //glutKeyboardUpFunc(callbacks_t::keyboard_up_cb); 
+  //glutTimerFunc(frame_period, callbacks_t::timer_cb, 0);
 
   //! We create the GLUI user interface
-  create_glui_ui();
+  //create_glui_ui();
 
   //! Enter the infinite GLUT event loop
-  glutMainLoop();
-  
+  //glutMainLoop();
+  double total_time=0,average_time=0,total_time_collisions=0,average_time_collisions=0;
+  double total_time_velocity_updates=0,average_time_velocity_updates=0;
+  double total_time_position_updates=0,average_time_position_updates=0;
+  float32 time_step = settings.hz > 0.0f ? 1.0f / settings.hz : float32(0.0f);
+  struct timeval tv1, tv2;
+  gettimeofday(&tv1,NULL);
+  for (int i=0;i<iteration_value;i++){
+		(test->get_world())->Step(time_step, settings.velocity_iterations, settings.position_iterations);
+		total_time+=(test->get_world())->GetProfile().step;
+		total_time_collisions+=(test->get_world())->GetProfile().collide;
+		total_time_velocity_updates+=(test->get_world())->GetProfile().solveVelocity;
+		total_time_position_updates+=(test->get_world())->GetProfile().solvePosition;
+	}
+	gettimeofday(&tv2,NULL);
+	float time_difference=(float)((tv2.tv_sec*1000000.0 + tv2.tv_usec) - (tv1.tv_sec*1000000.0 + tv1.tv_usec))/1000.0;
+	average_time=total_time/iteration_value;
+	average_time_collisions=total_time_collisions/iteration_value;
+	average_time_velocity_updates=total_time_velocity_updates/iteration_value;
+	average_time_position_updates=total_time_position_updates/iteration_value;
+	printf("Total Iterations: %d\n",iteration_value);
+	printf("Average time per step is %5.5fms\n",average_time);
+	printf("Average time for collisions is %5.5fms\n",average_time_collisions);
+	printf("Average time for velocity updates is %5.5fms\n",average_time_velocity_updates);
+	printf("Average time for position updates is %5.5fms\n",average_time_position_updates);
+	printf("Total time for loop is %5.5fms\n",time_difference);
   return 0;
 }

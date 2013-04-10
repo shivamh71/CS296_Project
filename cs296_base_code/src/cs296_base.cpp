@@ -120,7 +120,7 @@ void base_sim_t::step(settings_t* settings)
   
   m_world->Step(time_step, settings->velocity_iterations, settings->position_iterations);
   
-  m_world->DrawDebugData();
+  //m_world->DrawDebugData();
   
   if (time_step > 0.0f)
     {

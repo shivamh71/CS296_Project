@@ -1,0 +1,12 @@
+set terminal png
+set output "./plots/g16_plot02.png"
+set title "Time consumption data, averaged over reruns"
+set xlabel "Iteration Value"
+set ylabel "Time (in milliseconds)"
+set yrange [0:0.5]
+set datafile separator ","
+plot\
+   "./data/lab05_g16_data.csv" using 2:3 smooth unique title "Step times" with points,\
+   "./data/lab05_g16_data.csv" using 2:4 smooth unique title "Collision times" with points,\
+   "./data/lab05_g16_data.csv" using 2:5 smooth unique title "Velocity update times" with points,\
+   "./data/lab05_g16_data.csv" using 2:6 smooth unique title "Position update times" with points
