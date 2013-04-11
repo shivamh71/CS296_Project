@@ -155,7 +155,7 @@ report:$(DOCDIR)/$(REPORT_FILE).tex
 
 clean:
 	@$(ECHO) "Cleaning up..."
-	@$(RM) ./gmon.out *~ */*~ $(OBJDIR) $(DATADIR) $(PLOTDIR) $(BINDIR) $(DOCDIR)/$(REPORT_FILE).pdf
+	@$(RM) ./gmon.out *~ */*~ $(OBJDIR) $(DATADIR) $(PLOTDIR) bin doc/$(REPORT_FILE).pdf
 
 distclean: clean
 	@$(ECHO) "Cleaning up the distribution..."
