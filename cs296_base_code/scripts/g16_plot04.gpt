@@ -3,7 +3,6 @@ set output "./plots/g16_plot04.png"
 set title "Statistical Data for Step Times"
 set xlabel "Iteration Value"
 set ylabel "Time (in milliseconds)"
-set yrange [0:0.3]
 set datafile separator ","
 plot "./data/data.csv" using 1:2:3:4 title "Step times" with errorbars
 

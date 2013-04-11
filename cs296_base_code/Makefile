@@ -19,6 +19,7 @@ UNTAR = tar -xf
 PROF = gprof
 PLOT = gnuplot
 DOXYGEN = doxygen
+PYTHON = python3
 
 ######################################
 # Project File Names
@@ -49,7 +50,7 @@ ST_LBRY = libCS296.a
 SH_LBRY = libCS296.so
 
 # Compiler and Linker flags
-CPPFLAGS =-pg -Wall -fPIC
+CPPFLAGS =-pg -Wall -fPIC -O3
 CPPFLAGS+=-I $(BOX2D_ROOT)/include -I $(GLUI_ROOT)/include
 LDFLAGS+=-pg -L $(BOX2D_ROOT)/lib -L $(GLUI_ROOT)/lib
 COMPILE_TYPE = Release
@@ -125,28 +126,17 @@ exelib: setup library
 
 doc:
 	@$(ECHO) -n "Generating Doxygen Documentation ...  "
-	@$(RM) doc/html
+	@$(RM) $(DOCDIR)/html
 	@$(DOXYGEN) $(DOCDIR)/Doxyfile
 	@$(ECHO) "Done"
 
-plot01:$(BINDIR)/$(TARGET)
-	@$(ECHO) "Generating csv files..."
-	@$(MKDIR) data plots
-	@$(SCPTDIR)/gen_data.sh
-	@$(SCPTDIR)/gen_csv.sh
-	@$(SCPTDIR)/temp_data.sh
-	@$(ECHO) "Making plots..."
-	@$(PLOT) $(SCPTDIR)/*.gpt
-	@$(RM) $(DATADIR)/data.csv
-   
-plot02:$(BINDIR)/$(TARGET)
-	@$(ECHO) "Generating csv files..."
-	@$(MKDIR) data plots
-	@$(SCPTDIR)/gen_data_csv.sh
-	@$(SCPTDIR)/temp_data.sh
-	@$(ECHO) "Making plots..."
-	@$(PLOT) $(SCPTDIR)/*.gpt
-	@$(RM) $(DATADIR)/data.csv
+#plot:$(BINDIR)/$(TARGET)
+#	@$(ECHO) "Generating csv files..."
+#	@$(MKDIR) data plots
+#	@$(SCPTDIR)/gen_data_csv.sh
+#	@$(SCPTDIR)/temp_data.sh
+#	@$(ECHO) "Making plots..."
+#	@$(PLOT) $(SCPTDIR)/*.gpt
 
 report:$(DOCDIR)/$(REPORT_FILE).tex
 	@$(ECHO) "Compiling the profile documentation..."
@@ -155,30 +145,38 @@ report:$(DOCDIR)/$(REPORT_FILE).tex
 	@$(MV) -i $(PROJECT_ROOT)/$(REPORT_FILE).pdf $(DOCDIR)/$(REPORT_FILE).pdf
 	@$(MV) -i $(PROJECT_ROOT)/$(REPORT_FILE).tex $(DOCDIR)/$(REPORT_FILE).tex
 	@$(RM) $(PROJECT_ROOT)/$(REPORT_FILE)*
+	@$(PYTHON) $(SCPTDIR)/g16_gen_html.py
 
-var_debug:
-	@$(ECHO) "Setting debug variables"
-	$(eval COMPILE_TYPE=Debug)
-	$(eval PROFILE_TYPE=debug)
-	$(eval CPPFLAGS+=-g)
-
-var_release:
-	@$(ECHO) "Setting release variables"
-	$(eval COMPILE_TYPE=Release)
-	$(eval PROFILE_TYPE=release)
-	$(eval CPPFLAGS+=-O3)
-
-profile:exe
-	@$(ECHO) "Profiling..."
-	@$(BINDIR)/$(TARGET) 10000
-	@$(PROF) $(BINDIR)/$(TARGET) gmon.out > $(DATADIR)/g16_$(PROFILE_TYPE)_prof.dat
-	@$(PROF) $(BINDIR)/$(TARGET) | $(SCPTDIR)/gprof2dot.py | dot -Tpng -o $(PLOTDIR)/g16_$(PROFILE_TYPE)_plot.png
-
-debug_prof:var_debug profile
-release_prof:var_release profile
+#profile:$(BINDIR)/$(TARGET)
+#	@$(ECHO) "Profiling..."
+#	@$(BINDIR)/$(TARGET) 10000
+#	@$(PROF) $(BINDIR)/$(TARGET) gmon.out > $(DATADIR)/g16_$(PROFILE_TYPE)_prof.dat
+#	@$(PROF) $(BINDIR)/$(TARGET) | $(SCPTDIR)/gprof2dot.py | dot -Tpng -o $(PLOTDIR)/g16_$(PROFILE_TYPE)_plot.png
 
 clean:
-	@$(ECHO) -n "Cleaning up..."
-	@$(RM) ./gmon.out *~ $(OBJDIR) $(DATADIR) $(PLOTDIR) $(BINDIR)
+	@$(ECHO) "Cleaning up..."
+	@$(RM) ./gmon.out *~ */*~ $(OBJDIR) $(DATADIR) $(PLOTDIR) $(BINDIR) $(DOCDIR)/$(REPORT_FILE).pdf
+
+distclean: clean
+	@$(ECHO) "Cleaning up the distribution..."
 	@$(CHDIR) $(EXTERNAL_ROOT) ;\
-	$(RM) include/* lib/* src/Box2D
+	$(RM) include lib src/Box2D
+	@$(RM) $(DOCDIR)/html $(DOCDIR)/$(REPORT_FILE).html
+
+dist: distclean
+	@$(CHDIR) .. ;\
+	tar -zcf cs296_g16_project.tar.gz $(PROJECT_ROOT)
+
+install: setplace exe report doc clean
+	@$(RM) $(DOCDIR)/Doxyfile $(DOCDIR)/$(REPORT_FILE).tex
+	@cp doc/$(REPORT_FILE).html $(DOCDIR)
+
+setplace:
+	$(eval loc=$(shell read -p "Enter the location for installation: "; echo $$REPLY))
+	@$(RM) $(loc)
+	@$(MKDIR) $(loc)
+	@$(MKDIR) $(loc)/doc
+	@cp -r $(DOCDIR) $(loc)
+	$(eval BINDIR=$(loc)/bin)
+	$(eval DOCDIR=$(loc)/doc)
+

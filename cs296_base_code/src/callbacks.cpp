@@ -66,10 +66,8 @@ namespace cs296
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     
-    /*! Implicit typecasting is conversion of one data type to another carried out by the compiler during the run time automatically
-    as per the requirement whereas eplicit typecasting is forced conversion of one data type to other by the user which occurs during
-    the compile time 
-    */
+    //! Notice the type casting 
+    //! Read about explicit/implicit type casting in C++
     float32 ratio = static_cast<float32>(tw) / static_cast<float32>(th);
     
     b2Vec2 extents(ratio * 25.0f, 25.0f);
@@ -79,14 +77,14 @@ namespace cs296
     b2Vec2 upper = settings.view_center + extents;
   
     //! L/R/B/T extents of the view frustum
-    //! gluOrtho2D is defined in "glu.h" file of OpenGL library. gluOrtho2D sets up a two-dimensional orthographic viewing region.
+    //! Find where this function is defined
     gluOrtho2D(lower.x, upper.x, lower.y, upper.y);
   }
   
   
   void callbacks_t::keyboard_cb(unsigned char key, int x, int y)
   {
-    //! this avoids unnecessary warnings if x and y are not used
+    //! What are these?
     B2_NOT_USED(x);
     B2_NOT_USED(y);
     
@@ -119,7 +117,7 @@ namespace cs296
       settings.pause = !settings.pause;
       break;
       
-      //! Default case is needed to avoid unwanted errors when none of the valid keys is pressed
+      //! The default case. Why is this needed?
     default:
       if (test)
 	{
@@ -184,7 +182,7 @@ namespace cs296
   
   void callbacks_t::mouse_cb(int32 button, int32 state, int32 x, int32 y)
   {
-    //! Left click and drag to move items
+    //! Use the mouse to move things around - figure out how this works?
     if (button == GLUT_LEFT_BUTTON)
       {
 	int mod = glutGetModifiers();

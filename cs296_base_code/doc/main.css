@@ -1,0 +1,16 @@
+#header > p{
+	font-size:72;
+	font-family:monospace;
+	font-weight:bold;
+}
+
+#header > h3{
+	font-family:monospace;
+}
+
+body{
+	background-color:#CBCED1;
+	color:black;
+	font-size:20;
+}
+

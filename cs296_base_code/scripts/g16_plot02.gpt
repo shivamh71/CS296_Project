@@ -3,7 +3,6 @@ set output "./plots/g16_plot02.png"
 set title "Time consumption data, averaged over reruns"
 set xlabel "Iteration Value"
 set ylabel "Time (in milliseconds)"
-set yrange [0:0.5]
 set datafile separator ","
 plot\
    "./data/lab05_g16_data.csv" using 2:3 smooth unique title "Step times" with points,\

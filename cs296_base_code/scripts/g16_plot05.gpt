@@ -5,11 +5,13 @@ set title "Step times frequency distribution"
 set xlabel "Step Time"
 set ylabel "Number of occurences"
 set datafile separator ","
+xmin = 0.2
+xmax = 0.4
 
-bw = 0.002
+bw = (xmax-xmin)/20
 round(x,base) = base*(0.5+int(x/base))
 
-set xrange [0.12:0.16]
+set xrange [xmin:xmax]
 set yrange [0:120]
 set boxwidth bw*0.8
 

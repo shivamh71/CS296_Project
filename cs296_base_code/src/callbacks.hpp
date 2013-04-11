@@ -4,7 +4,8 @@
  * Instructor: Parag Chaudhuri
  */
 
-//! These pre-processor directives are written on top of each heaerfile to avoid multiple defintions of any headerfile
+//! Notice the use of these pre-processor directives on top of each header file
+//! Why are they used?
 #ifndef _CALLBACKS_HPP_
 #define _CALLBACKS_HPP_
 
@@ -29,7 +30,7 @@ namespace cs296
   {
   public:
   //! Helper function for coordinates system conversion
-  //! Static functions are functions that are only visible to other functions in the same file and not outside it
+  //! Note the function is a static function. Read about C++ static functions
   static b2Vec2 convert_screen_to_world(int32 x, int32 y);
   
   //! GLUT resize callback. This is set via GLUI. Why is this so?
@@ -44,8 +45,7 @@ namespace cs296
   //! GLUT keyboard callback for keys with special keycodes
   static void keyboard_special_cb(int key, int x, int y);
   
-  //! GLUT keyboard callback
-  //! This gets called whenever up(arrow key) on keyoard is pressed
+  //! Another keyboard callback? Why is this necessary? Is this used?
   static void keyboard_up_cb(unsigned char key, int x, int y);
   
   //! GLUT mouse callback
